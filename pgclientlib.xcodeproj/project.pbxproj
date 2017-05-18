@@ -6,10 +6,23 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		517CD7701ECCF2B200916165 /* pgclientlib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pgclientlib.hpp; sourceTree = "<group>"; };
+		517CD7711ECCF2C000916165 /* pgclientlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pgclientlib.cpp; sourceTree = "<group>"; };
+		517CD7721ECCF2D500916165 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		517CD7731ECCF2E700916165 /* linenoise.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = linenoise.hpp; sourceTree = "<group>"; };
+		517CD7741ECCF48C00916165 /* pgclientlib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = pgclientlib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		517CD7651ECCF28B00916165 = {
 			isa = PBXGroup;
 			children = (
+				517CD7731ECCF2E700916165 /* linenoise.hpp */,
+				517CD7721ECCF2D500916165 /* Makefile */,
+				517CD7711ECCF2C000916165 /* pgclientlib.cpp */,
+				517CD7701ECCF2B200916165 /* pgclientlib.hpp */,
+				517CD7741ECCF48C00916165 /* pgclientlib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -23,6 +36,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/tkeitt/Dropbox/Work/pgclientlib;
 			dependencies = (
 			);
 			name = pgclientlib;
@@ -186,6 +200,7 @@
 				517CD76F1ECCF28B00916165 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
