@@ -84,7 +84,7 @@ void print_row(session& s)
         }
         case session::buffer_format::copy_binary:
         {
-            std::cout << s.get_strings().front();
+            std::cout << s.get_strings().front() << std::endl;
             break;
         }
         default: std::cout << "Uknown buffer format" << std::endl;
@@ -123,6 +123,11 @@ int main()
                         std::cout << "Local connection on " << path << "/" << prefix << port << std::endl;
                         break;
                     }
+                    case 'd':
+                    {
+                        s.copy_done();
+                        break;
+                    }
                     case 'e':
                     {
                         s.toggle_echo_codes();
@@ -156,6 +161,11 @@ int main()
                                 print_row(s);
                             }
                         }
+                        break;
+                    }
+                    case 'i':
+                    {
+                        s.copy_data(line);
                         break;
                     }
                     case 'm':

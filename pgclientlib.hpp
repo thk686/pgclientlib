@@ -214,12 +214,26 @@ public:
      *
      * \param err_msg An error message.
      */
-    void copy_fail(std::string err_msg)
+    void copy_fail(const std::string& err_msg)
     {
         buffer_type msg = {'f', 0, 0, 0, 0};
         boost::endian::big_int32_t len = err_msg.size() + 5;
         std::memcpy(&msg[1], &len, 4);
         append(msg, err_msg);
+        send_msg(msg);
+    }
+    
+    /**
+     * Copy data to server.
+     */
+    void copy_data(const std::string& data)
+    {
+        if (state != session_state::copy_in) throw
+            std::runtime_error("Attempt to copy data when not in copy in mode");
+        buffer_type msg = {'d', 0, 0, 0, 0};
+        boost::endian::big_int32_t len = data.size() + 5;
+        std::memcpy(&msg[1], &len, 4);
+        append(msg, data);
         send_msg(msg);
     }
     
@@ -241,8 +255,9 @@ public:
      */
     void query(const std::string& request)
     {
+        state = session_state::in_query;
         send_msg(query_msg(request));
-        process_until_ready();
+        handle_replies();
     }
     
     /**
@@ -385,10 +400,10 @@ private:
         if (socket.is_open()) socket.close();
     }
     
-    void process_until_ready()
+    void handle_replies()
     {
-        while (not_ready())
-            process_reply(get_reply());
+        if (state == session_state::copy_in) return;
+        while (not_ready()) process_reply(get_reply());
     }
     
     struct server_message_header
@@ -406,38 +421,16 @@ private:
     
     void send_msg(const buffer_type& msg)
     {
-        state = session_state::in_query;
-        asio::write(socket, asio::buffer(msg));
         if (echo_codes) std::cout << msg[0];
+        asio::write(socket, asio::buffer(msg));
     }
     
     bool not_ready() const { return state != session_state::ready_for_query; }
     bool ready()     const { return state == session_state::ready_for_query; }
     
-    void check_readable()
-    {
-        switch (state)
-        {
-            case session_state::not_connected:
-            {
-                throw std::runtime_error("No connection");
-            }
-            case session_state::not_started:
-            {
-                throw std::runtime_error("Session not started");
-            }
-            case session_state::copy_in:
-            {
-                throw std::runtime_error("In copy in sequence");
-            }
-            default: return;
-        }
-    }
-    
     server_message_header
     get_reply()
     {
-        check_readable();
         server_message_header reply;
         asio::read(socket, asio::buffer(&reply, sizeof(reply)));
         if (echo_codes) std::cout << reply.code;
@@ -591,7 +584,7 @@ private:
                 {
                     throw std::runtime_error("Error in startup; cannot continue");
                 }
-                process_until_ready();
+                handle_replies();
                 break;
             }
             case 'S': // ParameterStatus
@@ -697,15 +690,15 @@ private:
     
     void parse_params(const buffer_type& buf)
     {
-        std::string key, value;
         auto i = buf.begin();
+        std::string key, value;
         if (i == buf.end()) return;
         while (*i) key.push_back(*i++);
         while (*++i) value.push_back(*i);
         pars[key] = value;
     }
     
-    std::string buf2str(const buffer_type& msg)
+    std::string buf2str(const buffer_type& msg) const
     {
         return std::string(msg.begin(), msg.end());
     }
@@ -746,7 +739,7 @@ private:
                         while (sz--)
                         {
                             if (std::isprint(*i)) ss << *i;
-                            else                  ss << "_";
+                            else                  ss << '.';
                             ++i;
                         }
                         res.emplace_back(ss.str());
@@ -767,7 +760,7 @@ private:
                 std::transform(std::begin(rr), std::end(rr),
                                std::begin(res), [](std::uint8_t x)
                                {
-                                   return std::isprint(x) ? x : '_';
+                                   return std::isprint(x) ? x : '.';
                                });
                 return row_type({res});
             }
