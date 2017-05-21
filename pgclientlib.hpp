@@ -28,6 +28,14 @@
 // SOFTWARE.
 //
 
+/*! \mainpage PGClientLib
+ *
+ * Project to create a stand-alone, single-header
+ * C++ client library for postgresql.
+ *
+ * pgclientlib.session
+ */
+
 #ifndef pgclientlib_hpp
 #define pgclientlib_hpp
 
@@ -39,6 +47,11 @@
 #include <unordered_map>
 #include <boost/endian/arithmetic.hpp>
 #include <asio.hpp>
+
+/**
+ * All types are in this namespace
+ */
+namespace pgclientlib {
 
 /**
  * Client session class. Represents a client session. Manages all state and communications with the server.
@@ -264,12 +277,10 @@ public:
      */
     void clear_row_queue()
     {
-        while(row_queue_full()) row_queue.pop();
+        while(!row_queue_empty()) row_queue.pop();
     }
 
-    bool row_queue_full()        const { return !row_queue.empty(); } /**< True if rows in queue. */
     bool row_queue_empty()       const { return row_queue.empty();  } /**< False if rows in queue. */
-    std::size_t row_queue_size() const { return row_queue.size();   } /**< Number of rows in queue. */
     
     /**
      * Return a notification string.
@@ -290,12 +301,10 @@ public:
      */
     void clear_notification_queue()
     {
-        while (notification_queue_full()) notifications.pop();
+        while (!notification_queue_empty()) notifications.pop();
     }
     
-    bool notification_queue_full()        const { return !notifications.empty(); } /**< True if notifications in queue. */
     bool notification_queue_empty()       const { return notifications.empty();  } /**< False if notifications in queue. */
-    std::size_t notification_queue_size() const { return notifications.size();   } /**< Number of notifications in queue. */
 
     /**
      * Retrieve parameter value. Session parameters are stored in a map of key-value pairs.
@@ -783,5 +792,7 @@ private:
     field_map_type field_map = {};
     parameter_map pars = {};
 };
+    
+}; // namespace pgclientlib
 
 #endif /* pgclientlib_hpp */

@@ -58,7 +58,7 @@ get_par(const std::vector<std::string>& t,
 
 void print_notifications(session& s)
 {
-    while (s.notification_queue_full())
+    while (!s.notification_queue_empty())
         std::cout << s.get_notification() << std::endl;
 }
 
