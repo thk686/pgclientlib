@@ -36,6 +36,8 @@
 #include "pgclientlib.hpp"
 #include "linenoise.hpp"
 
+using namespace pgclientlib;
+
 std::vector<std::string>
 tokenize(const std::string& input)
 {

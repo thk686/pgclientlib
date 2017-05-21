@@ -280,7 +280,7 @@ public:
         while(!row_queue_empty()) row_queue.pop();
     }
 
-    bool row_queue_empty()       const { return row_queue.empty();  } /**< False if rows in queue. */
+    bool row_queue_empty() const { return row_queue.empty();  } /**< False if rows in queue. */
     
     /**
      * Return a notification string.
@@ -304,7 +304,7 @@ public:
         while (!notification_queue_empty()) notifications.pop();
     }
     
-    bool notification_queue_empty()       const { return notifications.empty();  } /**< False if notifications in queue. */
+    bool notification_queue_empty() const { return notifications.empty();  } /**< False if notifications in queue. */
 
     /**
      * Retrieve parameter value. Session parameters are stored in a map of key-value pairs.
@@ -375,10 +375,7 @@ public:
     ~session()
     {
         try { cleanup(); }
-        catch(...)
-        {
-            std::cout << "Caught exception in session destructor" << std::endl;
-        }
+        catch(...) {}
     }
     
 private:
@@ -493,8 +490,6 @@ private:
     }
 
     bool is_error(const server_message_header& msg) const { return msg.code == 'E'; }
-    bool is_ready(const server_message_header& msg) const { return msg.code == 'Z'; }
-    bool is_data(const server_message_header& msg)  const { return msg.code == 'D'; }
     
     void discard_data(const server_message_header& msg)
     {
@@ -770,7 +765,7 @@ private:
             {
                 std::string res(rr.size(), '\0');
                 std::transform(std::begin(rr), std::end(rr),
-                               std::begin(res), [](char x)
+                               std::begin(res), [](std::uint8_t x)
                                {
                                    return std::isprint(x) ? x : '_';
                                });
