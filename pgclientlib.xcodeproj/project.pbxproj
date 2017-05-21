@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		51188EB01ED1277200736E8C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		517CD7701ECCF2B200916165 /* pgclientlib.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pgclientlib.hpp; sourceTree = "<group>"; };
 		517CD7711ECCF2C000916165 /* pgclientlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pgclientlib.cpp; sourceTree = "<group>"; };
 		517CD7721ECCF2D500916165 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -23,6 +24,7 @@
 				517CD7711ECCF2C000916165 /* pgclientlib.cpp */,
 				517CD7701ECCF2B200916165 /* pgclientlib.hpp */,
 				517CD7741ECCF48C00916165 /* pgclientlib */,
+				51188EB01ED1277200736E8C /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
