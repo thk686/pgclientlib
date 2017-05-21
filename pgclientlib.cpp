@@ -165,7 +165,9 @@ int main()
                     }
                     case 'i':
                     {
-                        s.copy_data(line);
+                        auto pars = tokenize(line);
+                        std::string data = get_par(pars, 1, "");
+                        s.copy_data(data);
                         break;
                     }
                     case 'm':

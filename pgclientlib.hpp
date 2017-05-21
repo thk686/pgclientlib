@@ -190,7 +190,6 @@ public:
         if (state != session_state::not_started)
             throw std::runtime_error("Reset connection before sending startup request");
         send_msg(startup_msg(user, database));
-        process_reply(get_reply());
         return ready();
     }
     
@@ -257,7 +256,6 @@ public:
     {
         state = session_state::in_query;
         send_msg(query_msg(request));
-        handle_replies();
     }
     
     /**
@@ -402,8 +400,11 @@ private:
     
     void handle_replies()
     {
-        if (state == session_state::copy_in) return;
-        while (not_ready()) process_reply(get_reply());
+        while (not_ready())
+        {
+            if (state == session_state::copy_in) break;
+            process_reply(get_reply());
+        }
     }
     
     struct server_message_header
@@ -423,6 +424,7 @@ private:
     {
         if (echo_codes) std::cout << msg[0];
         asio::write(socket, asio::buffer(msg));
+        handle_replies();
     }
     
     bool not_ready() const { return state != session_state::ready_for_query; }
