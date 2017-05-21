@@ -59,7 +59,34 @@ get_par(const std::vector<std::string>& t,
 void print_notifications(session& s)
 {
     while (s.notification_queue_full())
-        std::cout << s.dequeue_notification() << std::endl;
+        std::cout << s.get_notification() << std::endl;
+}
+
+void print_row(session& s)
+{
+    switch(s.get_buffer_format())
+    {
+        case session::buffer_format::query:
+        {
+            std::cout << "|";
+            for (auto&& r : s.get_strings())
+                std::cout << r << "|";
+            std::cout << std::endl;
+            break;
+        }
+        case session::buffer_format::copy_text:
+        {
+            auto r = s.get_raw_row();
+            std::cout << std::string(r.begin(), r.end());
+            break;
+        }
+        case session::buffer_format::copy_binary:
+        {
+            std::cout << s.get_strings().front();
+            break;
+        }
+        default: std::cout << "Uknown buffer format" << std::endl;
+    }
 }
 
 int main()
@@ -67,15 +94,15 @@ int main()
     linenoise::LoadHistory(".history");
     
     session s;
-    int max_rows = 3;
-    bool reset_on_query = false;
+    int max_rows = 10;
+    std::string prompt = "> ";
     while(true)
     {
-        std::string line, input, prompt = "> ";
+        std::string line, input;
         while (line[0] != '\\' && line.find(";") == std::string::npos)
         {
             if(linenoise::Readline(prompt.c_str(), input)) return 0;
-            line += input;
+            if (input.empty()) line = "\\g"; else line += input;
         }
         linenoise::AddHistory(line.c_str());
         try
@@ -94,6 +121,11 @@ int main()
                         std::cout << "Local connection on " << path << "/" << prefix << port << std::endl;
                         break;
                     }
+                    case 'e':
+                    {
+                        s.toggle_echo_codes();
+                        break;
+                    }
                     case 'f':
                     {
                         auto fd = s.field_descriptors();
@@ -110,7 +142,6 @@ int main()
                     }
                     case 'g':
                     {
-                        s.enqueue_row();
                         if (s.row_queue_empty())
                         {
                             std::cout << "No more rows pending" << std::endl;
@@ -120,12 +151,7 @@ int main()
                             for (int i = 0; i != max_rows; ++i)
                             {
                                 if (s.row_queue_empty()) break;
-                                auto r = s.get_row();
-                                std::copy(std::begin(r),
-                                          std::end(r),
-                                          std::ostream_iterator<std::string>(std::cout, " "));
-                                std::cout << std::endl;
-                                s.enqueue_row();
+                                print_row(s);
                             }
                         }
                         break;
@@ -156,8 +182,7 @@ int main()
                     }
                     case 'r':
                     {
-                        while(s.enqueue_row());
-                        print_notifications(s);
+                        s.clear_row_queue();
                         break;
                     }
                     case 's':
@@ -167,9 +192,10 @@ int main()
                             user = get_par(pars, 2, getlogin()),
                             database = get_par(pars, 1, "");
                         s.startup(user, database);
-                        if (database.empty()) database = "default";
+                        if (database.empty()) database = user;
                         std::cout << "Connected to " << database
                                   << " as user " << user << std::endl;
+                        prompt = database + "> ";
                         print_notifications(s);
                         break;
                     }
@@ -185,14 +211,6 @@ int main()
                                   << " on service or port " << service << std::endl;
                         break;
                     }
-                    case 'y':
-                    {
-                        reset_on_query = !reset_on_query;
-                        std::cout << "Reset on query is ";
-                        reset_on_query ? std::cout << "on" : std::cout << "off";
-                        std::cout << std::endl;
-                        break;
-                    }
                     case 'z':
                     {
                         s.cancel();
@@ -202,17 +220,7 @@ int main()
                 }
             else
             {
-                s.query(line, reset_on_query);
-                print_notifications(s);
-                for (int i = 0; i != max_rows; ++i)
-                {
-                    if (s.row_queue_empty()) break;
-                    auto r = s.get_row();
-                    std::copy(std::begin(r), std::end(r),
-                              std::ostream_iterator<std::string>(std::cout, "\t"));
-                    std::cout << std::endl;
-                    s.enqueue_row();
-                }
+                s.query(line);
                 print_notifications(s);
             }
         }
