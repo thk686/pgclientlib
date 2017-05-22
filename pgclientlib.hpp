@@ -250,8 +250,8 @@ public:
     /**
      * Template accepting iterator pair. Must dereference to something converable to char.
      *
-     * \parm rb Beginning of the range.
-     * \parm re End of the range.
+     * \param rb Beginning of the range.
+     * \param re End of the range.
      */
     template<typename Iter>
     void copy_data(Iter rb, Iter re)
@@ -286,8 +286,8 @@ public:
     /**
      * Template accepting iterator pair. Must dereference to something converable to char.
      *
-     * \parm rb Beginning of the range.
-     * \parm re End of the range.
+     * \param rb Beginning of the range.
+     * \param re End of the range.
      */
     template<typename Iter>
     void query(Iter rb, Iter re)

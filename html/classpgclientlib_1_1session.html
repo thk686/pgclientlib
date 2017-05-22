@@ -178,12 +178,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5e4191f02efd71aa8326cf7ab1b60111"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a5e4191f02efd71aa8326cf7ab1b60111">copy_data</a> (const std::string &amp;data)</td></tr>
 <tr class="memdesc:a5e4191f02efd71aa8326cf7ab1b60111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy data to server.  <a href="#a5e4191f02efd71aa8326cf7ab1b60111">More...</a><br /></td></tr>
 <tr class="separator:a5e4191f02efd71aa8326cf7ab1b60111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5514a40e7aff884e9b0803876eed99b4"><td class="memTemplParams" colspan="2">template&lt;typename Iter &gt; </td></tr>
+<tr class="memitem:a5514a40e7aff884e9b0803876eed99b4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a5514a40e7aff884e9b0803876eed99b4">copy_data</a> (Iter rb, Iter re)</td></tr>
+<tr class="memdesc:a5514a40e7aff884e9b0803876eed99b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template accepting iterator pair.  <a href="#a5514a40e7aff884e9b0803876eed99b4">More...</a><br /></td></tr>
+<tr class="separator:a5514a40e7aff884e9b0803876eed99b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a317564e0fb587395eb377299f8dd464f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a317564e0fb587395eb377299f8dd464f">cancel</a> ()</td></tr>
 <tr class="memdesc:a317564e0fb587395eb377299f8dd464f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a cancel message (might be ignored).  <a href="#a317564e0fb587395eb377299f8dd464f">More...</a><br /></td></tr>
 <tr class="separator:a317564e0fb587395eb377299f8dd464f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05c01ce3e707a066805f265d01c1d8cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a05c01ce3e707a066805f265d01c1d8cf">query</a> (const std::string &amp;request)</td></tr>
 <tr class="memdesc:a05c01ce3e707a066805f265d01c1d8cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit a message.  <a href="#a05c01ce3e707a066805f265d01c1d8cf">More...</a><br /></td></tr>
 <tr class="separator:a05c01ce3e707a066805f265d01c1d8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5abb2be943a05617e51ad46f781e7578"><td class="memTemplParams" colspan="2">template&lt;typename Iter &gt; </td></tr>
+<tr class="memitem:a5abb2be943a05617e51ad46f781e7578"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a5abb2be943a05617e51ad46f781e7578">query</a> (Iter rb, Iter re)</td></tr>
+<tr class="memdesc:a5abb2be943a05617e51ad46f781e7578"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template accepting iterator pair.  <a href="#a5abb2be943a05617e51ad46f781e7578">More...</a><br /></td></tr>
+<tr class="separator:a5abb2be943a05617e51ad46f781e7578"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fe42c25b799b44752aa5a4848d1a41a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classpgclientlib_1_1session.html#ab752eb57388ac7c9b6665d82dd2486ac">row_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpgclientlib_1_1session.html#a0fe42c25b799b44752aa5a4848d1a41a">get_strings</a> (bool dequeue=true)</td></tr>
 <tr class="memdesc:a0fe42c25b799b44752aa5a4848d1a41a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return row as strings.  <a href="#a0fe42c25b799b44752aa5a4848d1a41a">More...</a><br /></td></tr>
 <tr class="separator:a0fe42c25b799b44752aa5a4848d1a41a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -729,7 +737,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a5e4191f02efd71aa8326cf7ab1b60111"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e4191f02efd71aa8326cf7ab1b60111">&#9670;&nbsp;</a></span>copy_data()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e4191f02efd71aa8326cf7ab1b60111">&#9670;&nbsp;</a></span>copy_data() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -753,6 +761,60 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Copy data to server. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>A string of data in copy format. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5514a40e7aff884e9b0803876eed99b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5514a40e7aff884e9b0803876eed99b4">&#9670;&nbsp;</a></span>copy_data() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iter &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pgclientlib::session::copy_data </td>
+          <td>(</td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>rb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>re</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Template accepting iterator pair. </p>
+<p>Must dereference to something converable to char.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rb</td><td>Beginning of the range. </td></tr>
+    <tr><td class="paramname">re</td><td>End of the range. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1193,7 +1255,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a05c01ce3e707a066805f265d01c1d8cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05c01ce3e707a066805f265d01c1d8cf">&#9670;&nbsp;</a></span>query()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a05c01ce3e707a066805f265d01c1d8cf">&#9670;&nbsp;</a></span>query() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1221,6 +1283,54 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">request</td><td>The query string. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5abb2be943a05617e51ad46f781e7578"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5abb2be943a05617e51ad46f781e7578">&#9670;&nbsp;</a></span>query() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iter &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pgclientlib::session::query </td>
+          <td>(</td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>rb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>re</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Template accepting iterator pair. </p>
+<p>Must dereference to something converable to char.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rb</td><td>Beginning of the range. </td></tr>
+    <tr><td class="paramname">re</td><td>End of the range. </td></tr>
   </table>
   </dd>
 </dl>
