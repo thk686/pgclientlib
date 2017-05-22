@@ -206,7 +206,15 @@ public:
     void terminate() { send_msg({'X', 0, 0, 0, 4}); } /**< Send the terminate message. */
     void sync()      { send_msg({'S', 0, 0, 0, 4}); } /**< Send the sync message. */
     void flush()     { send_msg({'H', 0, 0, 0, 4}); } /**< Send the flush message. */
-    void copy_done() { send_msg({'c', 0, 0, 0, 4}); } /**< Send copy done message. */
+    
+    /**
+     * Send copy done message.
+     */
+    void copy_done()
+    {
+        state = session_state::copy_done;
+        send_msg({'c', 0, 0, 0, 4});
+    }
     
     /**
      * Sends a copy fail message.
@@ -215,6 +223,7 @@ public:
      */
     void copy_fail(const std::string& err_msg)
     {
+        state = session_state::copy_done;
         buffer_type msg = {'f', 0, 0, 0, 0};
         boost::endian::big_int32_t len = err_msg.size() + 5;
         std::memcpy(&msg[1], &len, 4);
@@ -224,16 +233,30 @@ public:
     
     /**
      * Copy data to server.
+     *
+     * \param data A string of data in copy format.
      */
     void copy_data(const std::string& data)
     {
         if (state != session_state::copy_in) throw
             std::runtime_error("Attempt to copy data when not in copy in mode");
         buffer_type msg = {'d', 0, 0, 0, 0};
-        boost::endian::big_int32_t len = data.size() + 5;
+        boost::endian::big_int32_t len = data.size() + 4;
         std::memcpy(&msg[1], &len, 4);
-        append(msg, data);
+        append(msg, data, 0);
         send_msg(msg);
+    }
+    
+    /**
+     * Template accepting iterator pair. Must dereference to something converable to char.
+     *
+     * \parm rb Beginning of the range.
+     * \parm re End of the range.
+     */
+    template<typename Iter>
+    void copy_data(Iter rb, Iter re)
+    {
+        copy_data(std::string(rb, re));
     }
     
     /**
@@ -254,8 +277,22 @@ public:
      */
     void query(const std::string& request)
     {
+        if (not_ready()) throw
+            std::runtime_error("Server not ready for input");
         state = session_state::in_query;
         send_msg(query_msg(request));
+    }
+    
+    /**
+     * Template accepting iterator pair. Must dereference to something converable to char.
+     *
+     * \parm rb Beginning of the range.
+     * \parm re End of the range.
+     */
+    template<typename Iter>
+    void query(Iter rb, Iter re)
+    {
+        query(std::string(rb, re));
     }
     
     /**
@@ -422,7 +459,7 @@ private:
     
     void send_msg(const buffer_type& msg)
     {
-        if (echo_codes) std::cout << msg[0];
+        if (echo_codes) std::cout << "Out: " << msg[0] << std::endl;
         asio::write(socket, asio::buffer(msg));
         handle_replies();
     }
@@ -435,7 +472,7 @@ private:
     {
         server_message_header reply;
         asio::read(socket, asio::buffer(&reply, sizeof(reply)));
-        if (echo_codes) std::cout << reply.code;
+        if (echo_codes) std::cout << "In: " << reply.code << std::endl;
         return reply;
     }
     
@@ -624,7 +661,6 @@ private:
                     default: throw std::runtime_error("Invalid transaction status");
                 }
                 state = session_state::ready_for_query;
-                if (echo_codes) std::cout << std::endl;
                 break;
             }
             default:

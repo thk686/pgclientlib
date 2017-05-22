@@ -126,11 +126,13 @@ int main()
                     case 'd':
                     {
                         s.copy_done();
+                        print_notifications(s);
                         break;
                     }
                     case 'e':
                     {
                         s.toggle_echo_codes();
+                        print_notifications(s);
                         break;
                     }
                     case 'f':
@@ -191,7 +193,6 @@ int main()
                     {
                         linenoise::SaveHistory(".history");
                         print_notifications(s);
-                        s.terminate();
                         return 0;
                     }
                     case 'r':
